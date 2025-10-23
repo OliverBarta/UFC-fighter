@@ -1,29 +1,33 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <style>
-    body {
-        background-color: black;
-    }
-    </style>  
+    <meta charset="UTF-8">
+    <meta name="viewport" content ="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>UFC Fighter</title>
 </head>
 <body>
-    <style>
-        @font-face {
-            font-family: myFirstFont;
-            src: url(BBHSansBartle-Regular.ttf);
-        }
-        h1 {
-            color: white;
-            text-align: center;
-            font-family: myFirstFont;
-            font-size: 90px;
-        }
-    </style>
-    <h1>
+    <div class="title" style="padding-top: 5%;">
         UFC Fighter
-    </h1>
-    <p>qowijdioqjw</p>
+    </div>
+
+    <div class="subtext">
+        <p>By: Thomas Atlee and Oliver Barta</p>
+    </div>
+
+
+    <div class="mainsearch">
+        <input id="fightersearch" type="text" placeholder="Enter fighter name" />
+        <button onclick="searchFighter()">-></button>
+    </div>
+
+    <div id="result" class="result" style="display: none;">
+
+    </div>
+
+
+    <script src="scriptbackend.js"></script>
+
+
 </body>
 </html>
