@@ -10,7 +10,7 @@ function searchFighter() {
 
     if (fighterName === "") {
         resultDiv.style.display = "block";
-        resultDiv.innerHTML = "⚠️ Please enter a fighter name.";
+        resultDiv.innerHTML = "Please enter a fighter name.";
         return;
     }
 
