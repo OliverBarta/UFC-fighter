@@ -74,9 +74,40 @@ body {
 
 .result {
     display: flex;
+    text-align: center;
+    font-family: Bitcount;
+    color: rgb(255, 255, 255);
+    border-color: white;
+}
+
+.result tr {
+    display: flex;
+    padding-left: 100%;
+    color: rgb(17, 11, 83);
+}
+
+.suggestions {
     font-family: Bitcount;
     color: white;
-    border-color: white;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    text-align: left;
+    margin-top: 0%;
+    margin: 50px auto;
+    width: 50%;
+    height: 50px;
+    border: 1px solid white;
+    border-radius: 4px;
+    background-color: rgb(136, 136, 136);
+    padding-left: 15px;
+    
+}
 
+.suggestions tr {
+    display: flex;
+    color: rgb(12, 106, 27);
+}
+.suggestions table {
+    display: flex;
+    color: rgb(17, 11, 83);
 }
