@@ -3,51 +3,62 @@ async function readfile() {
     const data = await response.json();
     return data;
 }
-async function predict(keyp) {
+async function predict(name) {
     const suggestionsDiv = document.getElementById("suggestions");
 
     const data = await readfile();
     
-    const search = keyp.toLowerCase();
-
+    const search = name.toLowerCase();
+    
     const matches = data.filter(f => f.name?.toLowerCase().startsWith(search));
-
+    while (suggestionsDiv.firstChild) {
+        suggestionsDiv.removeChild(suggestionsDiv.firstChild);
+    }
+    
     if (matches.length > 0) {
-        // just show the first few names
-        const names = matches.slice(0, 4).map(f => f.name);
+        // just the first 6 names
+        const names = matches.slice(0, 6).map(f => f.name);
         //alert("Suggestions:\n" + names);
         suggestionsDiv.style.display = "flex";
-        let html2 = '<table>'
-        for (let i = 0; i<names.length; i+=2) {
-            html2 += '<tr><td>'+names[i]+'</td><td>'+' '+names[i+1]+'</td></tr>';
+        
+        for (let i = 0; i<names.length; i++) {
+            let button = document.createElement('button');
+            button.innerHTML = names[i];
+            button.onclick = function() {
+                searchFighter(names[i].trim());
+            };
+            suggestionsDiv.appendChild(button);
         }
-
-        html2 += '</table>'
-        suggestionsDiv.innerHTML = html2;
-        alert(names);
+        
+        //alert(names);
     } else {
         suggestionsDiv.style.display = "flex";
-        suggestionsDiv.innerHTML = ("Suggestions:\n None");
+        let textnosuggest = document.createElement('p');
+        textnosuggest.innerHTML = "Suggestions: None";
+        suggestionsDiv.appendChild(textnosuggest);
         //alert("No matches found.");
     }
 
 
 }
 
-
-document.getElementById("fightersearch").addEventListener("keydown", function(event) {
+document.getElementById("fightersearch").addEventListener("keyup", function(event) {
     if (event.key === "Enter") {
-        searchFighter();
+        searchFighter(document.getElementById("fightersearch").value.trim());
     }
-
-    const keyp = event.key;
     
-    predict(keyp);
+    console.log(event.key);
+
+    //const prevkeys = keypArray;
+    const name = document.getElementById("fightersearch").value.trim();
+    console.log("name:",name);
+    predict(name);
 
 });
 
-async function searchFighter() {
-    const fighterName = document.getElementById("fightersearch").value.trim().toLowerCase();
+async function searchFighter(fighterName) {
+    //const fighterName = document.getElementById("fightersearch").value.trim().toLowerCase();
+    fighterName = fighterName.toLowerCase();
     const resultDiv = document.getElementById("result");
 
     if (fighterName === "") {

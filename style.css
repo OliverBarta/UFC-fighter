@@ -83,31 +83,46 @@ body {
 .result tr {
     display: flex;
     padding-left: 100%;
-    color: rgb(17, 11, 83);
+    color: white;
 }
 
 .suggestions {
+    padding: 2rem;
+    gap: 2rem;
     font-family: Bitcount;
     color: white;
     display: flex;
-    align-items: center;
+    align-items: top;
     text-align: left;
-    margin-top: 0%;
-    margin: 50px auto;
+    flex-direction: column;
+    margin: auto;
     width: 50%;
-    height: 50px;
     border: 1px solid white;
     border-radius: 4px;
     background-color: rgb(136, 136, 136);
-    padding-left: 15px;
-    
+    /* padding-left: 15px; */
 }
 
 .suggestions tr {
     display: flex;
-    color: rgb(12, 106, 27);
+    color: rgb(255, 255, 255);
+    margin-top: 10%;
+    margin-bottom: 10%;
+    
 }
 .suggestions table {
     display: flex;
-    color: rgb(17, 11, 83);
+    color: white;
+}
+.suggestions button {
+    flex-direction: column;
+    background: none; /* Removes the background color */
+    border: none;    /* Removes the border */
+    padding: 0;      /* Removes padding */
+    margin: 0;       /* Removes any default margin */
+    font-family: inherit; /* Inherits font family from parent */
+    font-size: inherit;   /* Inherits font size from parent */
+    color: inherit;       /* Inherits text color from parent */
+    cursor: pointer;      /* Keeps the pointer cursor to indicate interactivity */
+    text-align: left;     /* Aligns text to the left, like normal text */
 }
