@@ -10,20 +10,20 @@
     <div class="title">
         UFC Fighter
     </div>
-
-    <div class="subtext">
-        <p>By: Thomas AtLee and Oliver Barta</p>
-    </div>
-
     <div class="mainsearch">
         <input id="fightersearch" type="text" placeholder="Enter fighter name" autocomplete="off"/>
-        <button onclick="searchFighter()">-></button>
+        <button onclick="searchFighterNoName()">-></button>
     </div>
     <div class="suggestions" id="suggestions" style="display: none;"></div>
 
-    <div id="result" class="result" style="display: none;">
-        
+    <div class="nameEle" id="nameEle" style="display: none;"></div>
+    <div id="bartext" class="bartext" style="display: none;"></div>
+    <div id="barwins" class="barwins" style="display: none;">
+        <div id="barwinside" class="barwinside"></div>
+        <div id="bardrawside" class="bardrawside"></div>
+        <div id="barloseside" class="barloseside"></div>
     </div>
+    <div id="result" class="result" style="display: none;"></div>
 
 
     <script src="scriptbackend.js"></script>

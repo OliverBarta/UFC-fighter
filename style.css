@@ -7,9 +7,40 @@
     font-family: Bitcount;
     src: url(BitcountGridSingle-VariableFont_CRSV,ELSH,ELXP,slnt,wght.ttf);
 }
-body {
-    background-color: rgb(0, 0, 0);
+.fade-in {
+    opacity: 0;
+    transform: scale(0.98);
+    animation: fadeIn 0.6s ease-out forwards;
 }
+
+.fade-out {
+    opacity: 1;
+    transform: scale(1);
+    animation: fadeOut 0.6s ease-in forwards;
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+        transform: scale(0.98);
+    }
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+
+
+
+body {
+    background-color: rgb(94, 3, 3);
+    background-image: radial-gradient(circle, red, black);
+}
+
 .title {
     color: white;
     text-align: center;
@@ -37,6 +68,11 @@ body {
     border-radius: 4px;
     background-color: black;
     padding-left: 15px;
+    transition: border 0.3s;
+}
+
+.mainsearch:hover {
+    border: 4px solid white;;
 }
 
 .mainsearch input {
@@ -66,24 +102,121 @@ body {
     font-family: Bitcount;
     font-size: 20px;
     margin-right: 15px;
+    transition: border 0.3s;
 }
 .mainsearch button:hover {
     background-color: white;
     color: black;
+    border: 4px;
+}
+
+.nameEle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-family: Bitcount;
+    font-size: 25px;
+    transform: translateY(50%);
 }
 
 .result {
     display: flex;
-    text-align: center;
+    flex-direction: column;
+    text-align: left;
+    justify-content: center;
+    margin: auto;
     font-family: Bitcount;
     color: rgb(255, 255, 255);
-    border-color: white;
+
+    --p1: 25%;
+    --p2: 75%;
+    background-image:
+        linear-gradient(to top, rgb(0, 0, 0), rgba(0, 0, 0, 0) 200%),
+        linear-gradient(to right, white, 0.5%, blue var(--p1), grey var(--p2), red, 99.5%, white);
+    
+    background-size: 100% 100%, 100% 100%;
+    background-position: top;
+    background-repeat: no-repeat;
+    
+    border: 1px solid #ffffff;
+    border-radius: 4px;
+    width: 50%;
+    text-indent: 3%;
+    transition: border 0.3s;
+}
+.result:hover {
+    border: 4px solid #ffffff;
 }
 
-.result tr {
+.barwins{
+    font-family: Bitcount;
     display: flex;
-    padding-left: 100%;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    margin-top: 0%;
+    background: none;
+    border-radius: 4px;
     color: white;
+    width: 50%;
+    height: 20px;
+    border: 1px solid #ffffff;
+    transition: border 0.3s;
+}
+
+.barwins:hover {
+    border: 4px solid #ffffff;
+}
+
+.bartext {
+    margin-top: 5%;
+    font-family: Bitcount;
+    color: white;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-right: auto 15%;
+}
+
+.barwinside{
+    color: rgb(255, 255, 255);
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    border-radius: 4px;
+    display: flex;
+    height: 100%;
+    background-image: linear-gradient(to left, blue, rgb(77, 77, 255));
+    transition: border 0.3s;
+}
+.barloseside{
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    color: rgb(255, 255, 255);
+    border-radius: 4px;
+    display: flex;
+    height: 100%;
+    background-image: linear-gradient(to right, red, rgb(255, 77, 77));
+}
+
+.bardrawside{
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    border-radius: 4px;
+    color: rgb(255, 255, 255);
+    display: flex;
+    height: 100%;
+    background: rgb(108, 108, 108);
+    transition: border 0.3s;
+}
+
+.barwinside,
+.bardrawside,
+.barloseside {
+    transition: width 0.6s ease-in-out;
 }
 
 .suggestions {
@@ -99,8 +232,14 @@ body {
     width: 50%;
     border: 1px solid white;
     border-radius: 4px;
-    background-color: rgb(136, 136, 136);
-    /* padding-left: 15px; */
+    --p3: 50%;
+    /* background-image: linear-gradient(to right, grey, var(--p3), rgb(128,128,205)); */
+    background-image: linear-gradient(to right, grey, var(--p3), rgb(128,128,205));
+    transition: border 0.3s;
+}
+
+.suggestions:hover {
+    border: 4px solid white;;
 }
 
 .suggestions tr {
@@ -108,21 +247,22 @@ body {
     color: rgb(255, 255, 255);
     margin-top: 10%;
     margin-bottom: 10%;
-    
 }
-.suggestions table {
-    display: flex;
-    color: white;
-}
+
 .suggestions button {
     flex-direction: column;
-    background: none; /* Removes the background color */
-    border: none;    /* Removes the border */
-    padding: 0;      /* Removes padding */
-    margin: 0;       /* Removes any default margin */
-    font-family: inherit; /* Inherits font family from parent */
-    font-size: inherit;   /* Inherits font size from parent */
-    color: inherit;       /* Inherits text color from parent */
-    cursor: pointer;      /* Keeps the pointer cursor to indicate interactivity */
-    text-align: left;     /* Aligns text to the left, like normal text */
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    cursor: pointer;
+    text-align: left;
+    transition: font-size 0.3s;
+}
+
+.suggestions button:hover {
+    font-size: 20px;
 }
