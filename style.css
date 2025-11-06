@@ -19,6 +19,7 @@
     animation: fadeOut 0.6s ease-in forwards;
 }
 
+
 @keyframes fadeOut {
     to {
         opacity: 0;
@@ -32,8 +33,6 @@
         transform: scale(1);
     }
 }
-
-
 
 
 body {
@@ -117,7 +116,11 @@ body {
     color: white;
     font-family: Bitcount;
     font-size: 25px;
-    transform: translateY(50%);
+    transform: translateY(100%);
+    transition: border 0.3s, width 0.3s ease, filter 0.3s ease, opacity 0.3s ease;;
+    overflow: hidden;
+    filter: blur(0px);
+    opacity: 1;
 }
 
 .result {
@@ -128,6 +131,7 @@ body {
     margin: auto;
     font-family: Bitcount;
     color: rgb(255, 255, 255);
+    background: black;
 
     --p1: 25%;
     --p2: 75%;
@@ -138,12 +142,14 @@ body {
     background-size: 100% 100%, 100% 100%;
     background-position: top;
     background-repeat: no-repeat;
-    
     border: 1px solid #ffffff;
     border-radius: 4px;
     width: 50%;
     text-indent: 3%;
-    transition: border 0.3s;
+    transition: border 0.3s, width 0.3s ease, filter 0.3s ease, opacity 0.3s ease;;
+    overflow: hidden;
+    filter: blur(0px);
+    opacity: 1;
 }
 .result:hover {
     border: 4px solid #ffffff;
@@ -162,7 +168,10 @@ body {
     width: 50%;
     height: 20px;
     border: 1px solid #ffffff;
-    transition: border 0.3s;
+    transition: border 0.3s, width 0.3s ease, filter 0.3s ease, opacity 0.3s ease;;
+    overflow: hidden;
+    filter: blur(0px);
+    opacity: 1;
 }
 
 .barwins:hover {
@@ -177,6 +186,10 @@ body {
     justify-content: center;
     text-align: center;
     margin-right: auto 15%;
+    transition: border 0.3s, width 0.3s ease, filter 0.3s ease, opacity 0.3s ease;;
+    overflow: hidden;
+    filter: blur(0px);
+    opacity: 1;
 }
 
 .barwinside{
@@ -188,7 +201,10 @@ body {
     display: flex;
     height: 100%;
     background-image: linear-gradient(to left, blue, rgb(77, 77, 255));
-    transition: border 0.3s;
+    transition: border 0.3s, width 0.3s ease, filter 0.3s ease, opacity 0.3s ease;;
+    overflow: hidden;
+    filter: blur(0px);
+    opacity: 1;
 }
 .barloseside{
     align-items: center;
@@ -199,6 +215,10 @@ body {
     display: flex;
     height: 100%;
     background-image: linear-gradient(to right, red, rgb(255, 77, 77));
+    transition: border 0.3s, width 0.3s ease, filter 0.3s ease, opacity 0.3s ease;;
+    overflow: hidden;
+    filter: blur(0px);
+    opacity: 1;
 }
 
 .bardrawside{
@@ -210,13 +230,16 @@ body {
     display: flex;
     height: 100%;
     background: rgb(108, 108, 108);
-    transition: border 0.3s;
+    transition: border 0.3s, width 0.3s ease, filter 0.3s ease, opacity 0.3s ease;;
+    overflow: hidden;
+    filter: blur(0px);
+    opacity: 1;
 }
 
 .barwinside,
 .bardrawside,
 .barloseside {
-    transition: width 0.6s ease-in-out;
+    transition: width 0.3s ease-in-out;
 }
 
 .suggestions {
@@ -233,7 +256,6 @@ body {
     border: 1px solid white;
     border-radius: 4px;
     --p3: 50%;
-    /* background-image: linear-gradient(to right, grey, var(--p3), rgb(128,128,205)); */
     background-image: linear-gradient(to right, grey, var(--p3), rgb(128,128,205));
     transition: border 0.3s;
 }

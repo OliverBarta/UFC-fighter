@@ -85,6 +85,37 @@ async function searchFighterNoName() {
     searchFighter(document.getElementById("fightersearch").value.trim());
 }
 
+async function firstanimat(resultDiv, widthyn) {
+    resultDiv.style.filter = 'blur(4px)';
+    resultDiv.style.opacity = '0.5';
+    if (widthyn) {
+        resultDiv.style.width = '10%';
+    }
+}
+
+async function secondanimat(resultDiv, widthyn) {
+    if (widthyn) {
+        resultDiv.style.width = '50%';
+    }
+    resultDiv.style.filter = 'blur(0px)';
+    resultDiv.style.opacity = '1';
+}
+
+async function animateResultDiv(resultDiv, barwins, bartext, nameEleDiv) {
+    firstanimat(resultDiv, true);
+    firstanimat(barwins, true);
+    firstanimat(bartext, false);
+    firstanimat(nameEleDiv, false);
+    
+    //delays
+    await new Promise(resolve => setTimeout(resolve, 300));
+    secondanimat(resultDiv, true);
+    secondanimat(barwins, true);
+    secondanimat(bartext, false);
+    secondanimat(nameEleDiv, false);
+
+}
+
 async function searchFighter(fighterName) {
     fighterName = fighterName.toLowerCase();
     const nameEleDiv = document.getElementById("nameEle");
@@ -109,12 +140,16 @@ async function searchFighter(fighterName) {
     // Match by lowercase JSON field "name"
     const fighter = data.find(f => f.name?.toLowerCase() === fighterName);
     
+    
+
+
+    //Animate blur result change
+    await animateResultDiv(resultDiv, barwins, bartext, nameEleDiv);
+
     fadeInElement(resultDiv);
     fadeInElement(bartext);
     fadeInElement(barwins);
     fadeInElement(nameEleDiv);
-    
-    
 
     while (resultDiv.firstChild) {
         resultDiv.removeChild(resultDiv.firstChild);
@@ -152,14 +187,11 @@ async function searchFighter(fighterName) {
         
         
         bartext.innerHTML = "Wins: "+win+" Draws: "+draws+" Losses: "+losses;
-
-
         barwinside.style.width = ((win/(win+draws+losses))*100)+'%';
         bardrawside.style.width = ((draws/(win+draws+losses))*100)+'%';
         barloseside.style.width = ((losses/(win+draws+losses))*100)+'%';
         resultDiv.style.setProperty("--p1", ((((win+draws)/(win+draws+losses))*100)/2)+'%');
         resultDiv.style.setProperty("--p2", (100-(((losses+draws)/(win+draws+losses))*100))+'%');
-
     } else {
         resultDiv.innerHTML = "Fighter not found.";
     }
