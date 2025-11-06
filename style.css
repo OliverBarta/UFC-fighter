@@ -10,13 +10,13 @@
 .fade-in {
     opacity: 0;
     transform: scale(0.98);
-    animation: fadeIn 0.6s ease-out forwards;
+    animation: fadeIn 1s ease-out forwards;
 }
 
 .fade-out {
     opacity: 1;
     transform: scale(1);
-    animation: fadeOut 0.6s ease-in forwards;
+    animation: fadeOut 1s ease-in forwards;
 }
 
 
@@ -71,7 +71,7 @@ body {
 }
 
 .mainsearch:hover {
-    border: 4px solid white;;
+    border: 4px solid white;
 }
 
 .mainsearch input {
@@ -117,13 +117,14 @@ body {
     font-family: Bitcount;
     font-size: 25px;
     transform: translateY(100%);
-    transition: border 0.3s, width 0.3s ease, filter 0.3s ease, opacity 0.3s ease;;
+    transition: border 0.3s, width 0.3s ease, filter 0.3s ease, opacity 0.3s ease;
     overflow: hidden;
     filter: blur(0px);
     opacity: 1;
 }
 
 .result {
+    
     display: flex;
     flex-direction: column;
     text-align: left;
@@ -146,7 +147,7 @@ body {
     border-radius: 4px;
     width: 50%;
     text-indent: 3%;
-    transition: border 0.3s, width 0.3s ease, filter 0.3s ease, opacity 0.3s ease;;
+    transition: border 0.3s, width 0.3s ease, filter 0.3s ease, opacity 0.3s ease;
     overflow: hidden;
     filter: blur(0px);
     opacity: 1;
@@ -168,7 +169,7 @@ body {
     width: 50%;
     height: 20px;
     border: 1px solid #ffffff;
-    transition: border 0.3s, width 0.3s ease, filter 0.3s ease, opacity 0.3s ease;;
+    transition: border 0.3s, width 0.3s ease, filter 0.3s ease, opacity 0.3s ease;
     overflow: hidden;
     filter: blur(0px);
     opacity: 1;
@@ -186,7 +187,7 @@ body {
     justify-content: center;
     text-align: center;
     margin-right: auto 15%;
-    transition: border 0.3s, width 0.3s ease, filter 0.3s ease, opacity 0.3s ease;;
+    transition: border 0.3s, width 0.3s ease, filter 0.3s ease, opacity 0.3s ease;
     overflow: hidden;
     filter: blur(0px);
     opacity: 1;
@@ -201,7 +202,7 @@ body {
     display: flex;
     height: 100%;
     background-image: linear-gradient(to left, blue, rgb(77, 77, 255));
-    transition: border 0.3s, width 0.3s ease, filter 0.3s ease, opacity 0.3s ease;;
+    transition: border 0.3s, width 0.3s ease, filter 0.3s ease, opacity 0.3s ease;
     overflow: hidden;
     filter: blur(0px);
     opacity: 1;
@@ -215,7 +216,7 @@ body {
     display: flex;
     height: 100%;
     background-image: linear-gradient(to right, red, rgb(255, 77, 77));
-    transition: border 0.3s, width 0.3s ease, filter 0.3s ease, opacity 0.3s ease;;
+    transition: border 0.3s, width 0.3s ease, filter 0.3s ease, opacity 0.3s ease;
     overflow: hidden;
     filter: blur(0px);
     opacity: 1;
@@ -230,7 +231,7 @@ body {
     display: flex;
     height: 100%;
     background: rgb(108, 108, 108);
-    transition: border 0.3s, width 0.3s ease, filter 0.3s ease, opacity 0.3s ease;;
+    transition: border 0.3s, width 0.3s ease, filter 0.3s ease, opacity 0.3s ease;
     overflow: hidden;
     filter: blur(0px);
     opacity: 1;
@@ -261,7 +262,7 @@ body {
 }
 
 .suggestions:hover {
-    border: 4px solid white;;
+    border: 4px solid white;
 }
 
 .suggestions tr {
@@ -287,4 +288,21 @@ body {
 
 .suggestions button:hover {
     font-size: 20px;
+}
+
+@media (max-width: 768px) {
+    .result,
+    .barwins,
+    .suggestions,
+    .mainsearch {
+        width: 90%;
+    }
+
+    .title {
+        font-size: 30px;
+    }
+    .nameEle {
+        font-size: 20px;
+    }
+
 }

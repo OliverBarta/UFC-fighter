@@ -4,6 +4,11 @@ async function readfile() {
     return data;
 }
 
+function getResponsiveWidth() {
+    // If screen width is small, use 90%, otherwise 50%
+    return window.innerWidth <= 768 ? '90%' : '50%';
+}
+
 async function fadeInElement(el) {
     el.classList.remove("fade-out");
     el.style.display = "flex"; // or "block" if needed
@@ -95,7 +100,7 @@ async function firstanimat(resultDiv, widthyn) {
 
 async function secondanimat(resultDiv, widthyn) {
     if (widthyn) {
-        resultDiv.style.width = '50%';
+        resultDiv.style.width = getResponsiveWidth();
     }
     resultDiv.style.filter = 'blur(0px)';
     resultDiv.style.opacity = '1';
