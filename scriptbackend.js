@@ -4,6 +4,8 @@ async function readfile() {
     return data;
 }
 
+var showFighters = false;
+
 function getResponsiveWidth() {
     // If screen width is small, use 90%, otherwise 50%
     return window.innerWidth <= 768 ? '90%' : '50%';
@@ -25,7 +27,7 @@ async function fadeOutElement(el) {
     });
 }
 
-async function predict(name) {
+async function predict(name, numFighters) {
 
     const suggestionsDiv = document.getElementById("suggestions");
 
@@ -33,6 +35,7 @@ async function predict(name) {
     
     const search = name.toLowerCase();
 
+    
 
     if (search.length<9) {
         suggestionsDiv.style.setProperty("--p3",(90-search.length*10)+'%');
@@ -48,10 +51,25 @@ async function predict(name) {
     if (suggestionsDiv.style.display == "none") {
         fadeInElement(suggestionsDiv);
     }
+
+    if (showFighters) {
+        let button = document.createElement('button');
+        button.innerHTML = "Hide extra fighters";
+        button.style.backgroundImage = 'linear-gradient(to right, black, rgb(128,128,205))';
+        button.style.borderRadius = '4px';
+        button.style.width = '40%';
+        button.style.textAlign = 'center';
+        button.style.alignSelf = 'center';
+        button.onclick = function() {
+            predict(name, 6);
+            showFighters = false;
+        }
+        suggestionsDiv.appendChild(button);
+    }
+
     if (matches.length > 0) {
-        // just the first 6 names
-        const names = matches.slice(0, 6).map(f => f.name);
-        
+
+        const names = matches.slice(0, numFighters).map(f => f.name);
         
         for (let i = 0; i<names.length; i++) {
             let button = document.createElement('button');
@@ -60,6 +78,22 @@ async function predict(name) {
                 searchFighter(names[i].trim());
             };
             suggestionsDiv.appendChild(button);
+        }
+
+        if (matches.length > 6 && !showFighters) {
+            let button = document.createElement('button');
+            button.innerHTML = "Show all fighters";
+            button.style.backgroundImage = 'linear-gradient(to right, black, rgb(128,128,205))';
+            button.style.borderRadius = '4px';
+            button.style.width = '40%';
+            button.style.textAlign = 'center';
+            button.style.alignSelf = 'center';
+            button.onclick = function() {
+                predict(name, 100);
+                showFighters = true;
+            }
+            suggestionsDiv.appendChild(button);
+            
         }
         
     } else {
@@ -81,8 +115,11 @@ document.getElementById("fightersearch").addEventListener("keyup", function(even
     //const prevkeys = keypArray;
     const name = document.getElementById("fightersearch").value.trim();
     console.log("name:",name);
-    predict(name);
-
+    if (showFighters) {
+        predict(name, 100);
+    } else {
+        predict(name, 6);
+    }
 });
 
 //for the search button
@@ -181,10 +218,11 @@ async function searchFighter(fighterName) {
                 resultDiv.appendChild(fighterStats);
             } else {
                 let fighterStats = document.createElement('p');
+                let new_key = key[0].toUpperCase()+key.slice(1);//Captializes first letter
                 if (value != "") {
-                    fighterStats.innerHTML = key+": "+value;
+                    fighterStats.innerHTML = new_key.replace(/_/g," ")+": "+value;
                 } else {
-                    fighterStats.innerHTML = key+": NA";
+                    fighterStats.innerHTML = new_key.replace(/_/g," ")+": NA";
                 }
                 resultDiv.appendChild(fighterStats);
             }
