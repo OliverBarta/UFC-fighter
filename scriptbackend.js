@@ -89,7 +89,7 @@ async function predict(name, numFighters) {
             button.style.textAlign = 'center';
             button.style.alignSelf = 'center';
             button.onclick = function() {
-                predict(name, 100);
+                predict(name, 4200);
                 showFighters = true;
             }
             suggestionsDiv.appendChild(button);
@@ -116,7 +116,7 @@ document.getElementById("fightersearch").addEventListener("keyup", function(even
     const name = document.getElementById("fightersearch").value.trim();
     console.log("name:",name);
     if (showFighters) {
-        predict(name, 100);
+        predict(name, 4200);
     } else {
         predict(name, 6);
     }

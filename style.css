@@ -116,7 +116,7 @@ body {
     color: white;
     font-family: Bitcount;
     font-size: 25px;
-    transform: translateY(100%);
+    transform: translateY(30%);
     transition: border 0.3s, width 0.3s ease, filter 0.3s ease, opacity 0.3s ease;
     overflow: hidden;
     filter: blur(0px);
@@ -180,13 +180,13 @@ body {
 }
 
 .bartext {
-    margin-top: 5%;
+    margin-top: 0%;
     font-family: Bitcount;
     color: white;
     align-items: center;
     justify-content: center;
     text-align: center;
-    margin-right: auto 15%;
+    margin-right: auto;
     transition: border 0.3s, width 0.3s ease, filter 0.3s ease, opacity 0.3s ease;
     overflow: hidden;
     filter: blur(0px);
