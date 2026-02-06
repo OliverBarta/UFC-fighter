@@ -60,7 +60,7 @@ async function predict(name, numFighters) {
     if (showFighters) {
         let button = document.createElement('button');
         button.type = 'button';
-        button.innerHTML = "Hide extra fighters";
+        button.innerHTML = "Hide extra \""+name+"\"";
         button.style.backgroundImage = 'linear-gradient(to right, black, rgb(128,128,205))';
         button.style.borderRadius = '4px';
         button.style.width = '40%';
@@ -122,7 +122,7 @@ async function predict(name, numFighters) {
         if (showFighters) {
             let button = document.createElement('button');
             button.type = 'button';
-            button.innerHTML = "Hide extra fighters";
+            button.innerHTML = "Hide extra \""+name+"\"";
             button.style.backgroundImage = 'linear-gradient(to right, black, rgb(128,128,205))';
             button.style.borderRadius = '4px';
             button.style.width = '40%';
@@ -138,7 +138,7 @@ async function predict(name, numFighters) {
         if (matches.length > 6 && !showFighters) {
             let button = document.createElement('button');
             button.type = 'button';
-            button.innerHTML = "Show all fighters";
+            button.innerHTML = "Show all \""+name+"\"";
             button.style.backgroundImage = 'linear-gradient(to right, black, rgb(128,128,205))';
             button.style.borderRadius = '4px';
             button.style.width = '40%';
@@ -330,7 +330,9 @@ async function searchFighter(fighterName) {
                 }
                 largestVal = await findLargest(key);
                 boxblue2.style.setProperty("--p1", (Math.round(value/largestVal*100))+'%');
+
                 resultDiv.appendChild(boxblue2);
+
             } else {
                 let fighterStats = document.createElement('div');
                 fighterStats.classList.add("resultText");
