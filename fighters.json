@@ -35505,6 +35505,7 @@
         "wins": "22",
         "losses": "6",
         "draws": "0",
+        "image": "images/conor-mcgregor.jpeg",
         "height_cm": "175.26",
         "weight_in_kg": "70.31",
         "reach_in_cm": "187.96",
@@ -35518,6 +35519,7 @@
         "takedown_accuracy": "55.0",
         "takedown_defense": "66.0",
         "average_submissions_attempted_per_15_minutes": "0.1"
+        
     },
     {
         "name": "Geoff Neal",

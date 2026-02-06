@@ -5,6 +5,7 @@
     <meta name="viewport" content ="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <title>UFC Fighter</title>
+    <link rel="icon" type="image/site-icon" href="/images/conor-mcgregor.jpeg">
 </head>
 <body>
     <div class="title">
@@ -16,16 +17,32 @@
     </div>
     <div class="suggestions" id="suggestions" style="display: none;"></div>
     
+    <div id="arena" class="arena">
+        <div id="fighter-column" class="fighter-column">
+            <div class="nameEle" id="nameEle" style="display: none;"></div>
+            <div id="bartext" class="bartext" style="display: none;"></div>
+            <div id="barwins" class="barwins" style="display: none;">
+                <div id="barwinside" class="barwinside"></div>
+                <div id="bardrawside" class="bardrawside"></div>
+                <div id="barloseside" class="barloseside"></div>
+            </div>
+            <div id="result" class="result" style="display: none;"></div>
+        </div>
 
-    <div class="nameEle" id="nameEle" style="display: none;"></div>
-    <div id="bartext" class="bartext" style="display: none;"></div>
-    <div id="barwins" class="barwins" style="display: none;">
-        <div id="barwinside" class="barwinside"></div>
-        <div id="bardrawside" class="bardrawside"></div>
-        <div id="barloseside" class="barloseside"></div>
+        <div id="fighter-column2" class="fighter-column" style="display: none;">
+            <div class="nameEle" id="nameEle2" style="display: none;"></div>
+            <div id="bartext2" class="bartext" style="display: none;"></div>
+            <div id="barwins2" class="barwins" style="display: none;">
+                <div id="barwinside2" class="barwinside"></div>
+                <div id="bardrawside2" class="bardrawside"></div>
+                <div id="barloseside2" class="barloseside"></div>
+            </div>
+            <div id="result2" class="result" style="display: none;"></div>
+        </div>
     </div>
-    <div id="result" class="result" style="display: none;"></div>
+    
 
+    <div id="emptybotbox" class="emptybot" style="display: flex;"></div><!-- empty invisible box. Purpose: stop jumping -->
 
     <script src="scriptbackend.js"></script>
 
