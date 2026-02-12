@@ -315,7 +315,11 @@ async function searchFighter(fighterName) {
                 resultDiv.appendChild(fighterStats);
             } else if (key == "image") {
                 const img = document.createElement("img");
-                img.src = fighter.image;
+                if (value != "") {
+                    img.src = fighter.image;
+                } else {
+                    img.src = "images/defaultPFP.png";
+                }
                 img.alt = fighter.name;
                 img.className = "fighter-image";
                 resultDiv.appendChild(img);
@@ -460,7 +464,11 @@ async function compareFighter(fighterName) {
                 resultDiv2.appendChild(fighterStats);
             } else if (key == "image") {
                 const img = document.createElement("img");
-                img.src = fighter.image;
+                if (value != "") {
+                    img.src = fighter.image;
+                } else {
+                    img.src = "images/defaultPFP.png";
+                }
                 img.alt = fighter.name;
                 img.className = "fighter-image";
                 resultDiv2.appendChild(img);
