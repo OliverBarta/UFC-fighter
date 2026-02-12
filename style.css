@@ -16,9 +16,8 @@
 .fade-out {
     opacity: 1;
     transform: scale(1);
-    animation: fadeOut 1s ease-in forwards;
+    animation: fadeOut 0.5s ease-in forwards;
 }
-
 
 @keyframes fadeOut {
     to {
@@ -252,7 +251,14 @@ body {
 }
 
 .suggestions {
-    padding: 2rem;
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    padding: 0rem;
+    transition: border 0.3s, max-height 0.8s ease, padding 0.6s ease, opacity 0.7s ease;
+    transform-origin: top;
+
+    padding: 0rem;
     gap: 2rem;
     font-family: Bitcount;
     color: white;
@@ -266,10 +272,20 @@ body {
     border-radius: 4px;
     --p3: 50%;
     background-image: linear-gradient(to right, grey, var(--p3), rgb(128,128,205));
-    transition: border 0.3s;
-    overflow-anchor: none;
 }
 
+
+.suggestions.expand {
+    max-height: 1000px; /* must be larger than content */
+    padding: 2rem;
+    opacity: 1;
+}
+
+.suggestions.collapse {
+    max-height: 0;
+    padding: 0rem;
+    opacity: 0;
+}
 
 .suggestions:hover {
     border: 4px solid white;
@@ -291,6 +307,7 @@ body {
 .suggestion-row button:first-child {
     flex-grow: 1;
     text-align: left;
+    
 }
 
 .suggestions button.compare {
@@ -310,6 +327,7 @@ body {
     cursor: pointer;
     text-align: left;
     transition: font-size 0.3s;
+    
 }
 
 .suggestions button:hover {

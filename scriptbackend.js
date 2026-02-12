@@ -4,6 +4,26 @@ async function readfile() {
     return data;
 }
 
+function expandSuggestions(el) {
+    el.style.display = "flex";   // MUST be visible first
+    el.offsetHeight;
+    el.classList.remove("collapse");
+    el.classList.add("expand");
+}
+
+function collapseSuggestions(el) {
+    el.classList.remove("expand");
+    el.classList.add("collapse");
+
+    el.addEventListener("transitionend", function handler(e) {
+        if (e.propertyName === "max-height") {
+            el.style.display = "none";
+            el.removeEventListener("transitionend", handler);
+        }
+    });
+}
+
+
 var showFighters = false;
 let fightersOn = 0;
 var comparisonMode = false;
@@ -20,6 +40,7 @@ function getResponsiveWidth() {
 
 async function fadeInElement(el) {
     el.classList.remove("fade-out");
+    el.classList.remove("shrink-out");
     el.style.display = "flex"; // or "block" if needed
     void el.offsetWidth; // restart animation
     el.classList.add("fade-in");
@@ -37,7 +58,6 @@ async function fadeOutElement(el) {
 async function predict(name, numFighters) {
 
     const suggestionsDiv = document.getElementById("suggestions");
-    
 
     const data = await readfile();
     
@@ -53,8 +73,8 @@ async function predict(name, numFighters) {
         suggestionsDiv.removeChild(suggestionsDiv.firstChild);
     }
     
-    if (suggestionsDiv.style.display == "none") {
-        fadeInElement(suggestionsDiv);
+    if (getComputedStyle(suggestionsDiv).display === "none") {
+        expandSuggestions(suggestionsDiv);
     }
 
     if (showFighters) {
@@ -106,6 +126,7 @@ async function predict(name, numFighters) {
                 compareButton.innerHTML = 'Compare';
                 compareButton.classList.add('compare');
                 compareButton.onclick = function () {
+                    collapseSuggestions(suggestionsDiv);
                     compareFighter(names[i].trim());
                     fightersOn = 2;
                 };
