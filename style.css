@@ -36,8 +36,7 @@
 
 
 body {
-    background-color: rgb(94, 3, 3);
-    background-image: radial-gradient(circle, red, black);
+    background-color: black;
 }
 
 .title {
