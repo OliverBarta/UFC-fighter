@@ -5,7 +5,7 @@ async function readfile() {
 }
 
 function expandSuggestions(el) {
-    el.style.display = "flex";   // MUST be visible first
+    el.style.display = "flex";
     el.offsetHeight;
     el.classList.remove("collapse");
     el.classList.add("expand");
@@ -39,7 +39,7 @@ function getResponsiveWidth() {
 }
 
 async function fadeInElement(el) {
-    el.classList.remove("fade-out");
+    el.classList.remove("fade-out", "fade-in");
     el.classList.remove("shrink-out");
     el.style.display = "flex"; // or "block" if needed
     void el.offsetWidth; // restart animation
@@ -47,10 +47,12 @@ async function fadeInElement(el) {
 }
 
 async function fadeOutElement(el) {
-    el.classList.remove("fade-in");
+    el.classList.remove("fade-in", "fade-out");
     el.classList.add("fade-out");
     el.addEventListener("animationend", function handler() {
-        el.style.display = "none";
+        if (el.classList.contains("fade-out")) {
+            el.style.display = "none";
+        }
         el.removeEventListener("animationend", handler);
     });
 }
@@ -189,7 +191,6 @@ document.getElementById("fightersearch").addEventListener("keyup", function(even
     
     console.log(event.key);
 
-    //const prevkeys = keypArray;
     const name = document.getElementById("fightersearch").value.trim();
     console.log("name:",name);
     if (showFighters) {
@@ -235,6 +236,7 @@ async function animateResultDiv(resultDivEl, barwinsEl, bartextEl, nameEleDivEl)
 
 }
 
+// for the green bars
 async function findLargest(stat) {
     const data = await readfile();
     var largest = 0;
@@ -246,6 +248,7 @@ async function findLargest(stat) {
     return largest;
 }
 
+// for the green bars
 async function sumOf(stat) {
     const data = await readfile();
     var total = 0;
@@ -274,24 +277,7 @@ async function searchFighter(fighterName) {
 
     // Match by lowercase JSON field "name"
     const fighter = data.find(f => f.name?.toLowerCase() === fighterName);
-    
-    const sumSSLPM = await sumOf("significant_strikes_landed_per_minute");
 
-
-    if (fighterName === "") {
-        bartext.style.display = 'none';
-        barwins.style.display = 'none';
-        nameEleDiv.style.display = 'none';
-
-        resultDiv.style.display = "flex";
-        resultDiv.style.marginTop = '5%';
-        resultDiv.style.height = '70px';
-
-        resultDiv.innerHTML = "Please enter a fighter name.";
-
-        await animateResultDiv(resultDiv, barwins, bartext, nameEleDiv);
-        return;
-    }
 
     if (fighter) {
         resultDiv.style.height = 'auto';
@@ -300,6 +286,23 @@ async function searchFighter(fighterName) {
     //Animate blur result change
     await animateResultDiv(resultDiv, barwins, bartext, nameEleDiv);
 
+    if (fighterName === "") {
+        fadeOutElement(resultDiv);
+        fadeOutElement(bartext);
+        fadeOutElement(barwins);
+
+        while (nameEleDiv.firstChild) {
+            nameEleDiv.removeChild(nameEleDiv.firstChild);
+        }
+
+        let nameEleErr = document.createElement('p');
+        nameEleErr.innerHTML = "Please enter a fighter name.";
+        nameEleDiv.appendChild(nameEleErr);
+        fadeInElement(nameEleDiv);
+
+        return;
+    }
+
     while (resultDiv.firstChild) {
         resultDiv.removeChild(resultDiv.firstChild);
     }
@@ -307,11 +310,12 @@ async function searchFighter(fighterName) {
         nameEleDiv.removeChild(nameEleDiv.firstChild);
     }
 
-    fadeInElement(resultDiv);
+
     if (fighter) {
         fadeInElement(bartext);
         fadeInElement(barwins);
         fadeInElement(nameEleDiv);
+        fadeInElement(resultDiv);
     }
 
     if (fighter) {
@@ -379,16 +383,18 @@ async function searchFighter(fighterName) {
         resultDiv.style.setProperty("--p1", ((((win+draws)/(win+draws+losses))*100)/2)+'%');
         resultDiv.style.setProperty("--p2", (100-(((losses+draws)/(win+draws+losses))*100))+'%');
     } else {
-        bartext.style.display = 'none';
-        barwins.style.display = 'none';
-        nameEleDiv.style.display = 'none';
+        fadeOutElement(resultDiv);
+        fadeOutElement(bartext);
+        fadeOutElement(barwins);
 
-        resultDiv.innerHTML = "Fighter not found.";
-        resultDiv.style.marginTop = '5%';
-        resultDiv.style.height = '70px';
-
+        while (nameEleDiv.firstChild) {
+            nameEleDiv.removeChild(nameEleDiv.firstChild);
+        }
+        let nameEleErr = document.createElement('p');
+        nameEleErr.innerHTML = "Fighter not found.";
+        nameEleDiv.appendChild(nameEleErr);
+        fadeInElement(nameEleDiv);
     }
-    // alert(Math.round(fighter.significant_strikes_landed_per_minute/largestSSLPM*100));
 }
 
 
@@ -404,8 +410,6 @@ async function compareFighter(fighterName) {
         await animateResultDiv(resultDiv, barwins, bartext, nameEleDiv);
         comparisonMode = true;
     }
-
-
 
     const nameEleDiv2 = document.getElementById("nameEle2");
     const resultDiv2 = document.getElementById("result2");
@@ -423,24 +427,7 @@ async function compareFighter(fighterName) {
 
     // Match by lowercase JSON field "name"
     const fighter = data.find(f => f.name?.toLowerCase() === fighterName);
-    
-    const sumSSLPM = await sumOf("significant_strikes_landed_per_minute");
-    const largestSSLPM = await findLargest("significant_strikes_landed_per_minute");
 
-    if (fighterName === "") {
-        bartext2.style.display = 'none';
-        barwins2.style.display = 'none';
-        nameEleDiv2.style.display = 'none';
-
-        resultDiv2.style.display = "flex";
-        resultDiv2.style.marginTop = '5%';
-        resultDiv2.style.height = '70px';
-
-        resultDiv2.innerHTML = "Please enter a fighter name.";
-
-        await animateResultDiv(resultDiv2, barwins2, bartext2, nameEleDiv2);
-        return;
-    }
 
     if (fighter) {
         resultDiv2.style.height = 'auto';
@@ -449,15 +436,32 @@ async function compareFighter(fighterName) {
     //Animate blur result change
     await animateResultDiv(resultDiv2, barwins2, bartext2, nameEleDiv2);
 
+    if (fighterName === "") {
+        fadeOutElement(resultDiv2);
+        fadeOutElement(bartext2);
+        fadeOutElement(barwins2);
+
+        while (nameEleDiv2.firstChild) {
+            nameEleDiv2.removeChild(nameEleDiv2.firstChild);
+        }
+
+        let nameEle = document.createElement('p');
+        nameEle.innerHTML = "Please enter a fighter name.";
+        nameEleDiv2.appendChild(nameEle);
+        fadeInElement(nameEleDiv2);
+
+        return;
+    }
+
     while (resultDiv2.firstChild) {
         resultDiv2.removeChild(resultDiv2.firstChild);
     }
     while (nameEleDiv2.firstChild) {
         nameEleDiv2.removeChild(nameEleDiv2.firstChild);
     }
-
-    fadeInElement(resultDiv2);
+    
     if (fighter) {
+        fadeInElement(resultDiv2);
         fadeInElement(bartext2);
         fadeInElement(barwins2);
         fadeInElement(nameEleDiv2);
@@ -526,13 +530,18 @@ async function compareFighter(fighterName) {
         resultDiv2.style.setProperty("--p1", ((((win+draws)/(win+draws+losses))*100)/2)+'%');
         resultDiv2.style.setProperty("--p2", (100-(((losses+draws)/(win+draws+losses))*100))+'%');
     } else {
-        bartext2.style.display = 'none';
-        barwins2.style.display = 'none';
-        nameEleDiv2.style.display = 'none';
+        fadeOutElement(resultDiv2);
+        fadeOutElement(bartext2);
+        fadeOutElement(barwins2);
 
-        resultDiv2.innerHTML = "Fighter not found.";
-        resultDiv2.style.marginTop = '5%';
-        resultDiv2.style.height = '70px';
+        while (nameEleDiv2.firstChild) {
+            nameEleDiv2.removeChild(nameEleDiv2.firstChild);
+        }
+
+        let nameEle = document.createElement('p');
+        nameEle.innerHTML = "Fighter not found.";
+        nameEleDiv2.appendChild(nameEle);
+        fadeInElement(nameEleDiv2);
 
     }
 

@@ -1,48 +1,60 @@
-# Adds the wikipedia image urls, so that all fighters have urls
-
 import json
 import requests
 import time
 
-WIKI_API = "https://en.wikipedia.org/api/rest_v1/page/summary/"
+WIKI_API = "https://en.wikipedia.org/w/api.php"
+HEADERS = {
+    "User-Agent": "UFC-Fighter-Image-Fetcher/1.0 (contact: barta3738@gmail.com)"
+}
 
+def get_wikipedia_image(name):
+    params = {
+        "action": "query",
+        "titles": name,
+        "prop": "pageimages",
+        "piprop": "original",
+        "format": "json"
+    }
+
+    try:
+        r = requests.get(
+            WIKI_API,
+            params=params,
+            headers=HEADERS,
+            timeout=10
+        )
+
+        data = r.json()
+
+        pages = data["query"]["pages"]
+        page = next(iter(pages.values()))
+        
+        if "original" in page:
+            return page["original"]["source"]
+
+    except Exception as e:
+        print(f"Error for {name}: {e}")
+
+    return ""
+
+
+# Load json
 with open("fighters.json", "r", encoding="utf-8") as f:
     fighters = json.load(f)
 
-updated = 0
-skipped = 0
+# go through each fighter
+for i, fighter in enumerate(fighters):
+    if fighter.get("image", "") == "":
+        print(f"[{i+1}/{len(fighters)}] Searching image for {fighter['name']}")
 
-for fighter in fighters:
-    name = fighter.get("name", "").strip()
+        image_url = get_wikipedia_image(fighter["name"])
+        print(image_url)
+        fighter["image"] = image_url
 
-    # Skip if image already exists
-    if fighter.get("image"):
-        skipped += 1
-        continue
+        time.sleep(0.5)  # if you go too fast you get blocked
 
-    url = WIKI_API + name.replace(" ", "_")
-
-    try:
-        res = requests.get(url, timeout=5)
-        if res.status_code == 200:
-            data = res.json()
-            thumbnail = data.get("thumbnail", {}).get("source")
-
-            if thumbnail:
-                fighter["image"] = thumbnail
-                updated += 1
-            else:
-                fighter["image"] = ""
-        else:
-            fighter["image"] = ""
-
-    except Exception as e:
-        fighter["image"] = ""
-
-    # Be nice to Wikipedia
-    time.sleep(0.3)
-
+# save
 with open("fighters.json", "w", encoding="utf-8") as f:
     json.dump(fighters, f, indent=4)
 
-print(f"Done! Added images: {updated}, skipped existing: {skipped}")
+print("Done.")
