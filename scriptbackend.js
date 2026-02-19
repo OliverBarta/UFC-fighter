@@ -164,8 +164,6 @@ async function predict(name, numFighters) {
     
     if (getComputedStyle(suggestionsDiv).display === "none") {
         expandSuggestions(suggestionsDiv);
-
-
     }
 
     if (showFighters) {
@@ -276,11 +274,11 @@ async function predict(name, numFighters) {
         textnosuggest.innerHTML = "Suggestions: None";
         suggestionsDiv.appendChild(textnosuggest);
     }
-
-
 }
 
 document.getElementById("fightersearch").addEventListener("keyup", function(event) {
+    const subtext = document.getElementById("subtext");
+    subtext.style.display = "none";
     if (event.key === "Enter") {
         searchFighter(document.getElementById("fightersearch").value.trim());
     }
