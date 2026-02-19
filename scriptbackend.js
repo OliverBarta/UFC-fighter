@@ -4,6 +4,11 @@ async function readfile() {
     return data;
 }
 
+function isNumberString(str) {
+    return Number.isFinite(Number(str));
+}
+
+
 function expandSuggestions(el) {
     el.style.display = "flex";
     el.offsetHeight;
@@ -27,7 +32,7 @@ function collapseSuggestions(el) {
 var showFighters = false;
 let fightersOn = 0;
 var comparisonMode = false;
-
+var biggestToSmallest = true;
 
 
 function getResponsiveWidth() {
@@ -57,6 +62,89 @@ async function fadeOutElement(el) {
     });
 }
 
+async function searchByStat(stat, formattedName) {
+    const suggestionsDiv = document.getElementById("suggestions");
+    const data = await readfile();
+
+    while (suggestionsDiv.firstChild) {
+        suggestionsDiv.removeChild(suggestionsDiv.firstChild);
+    }
+
+    const row = document.createElement('div');
+    row.classList.add('suggestion-row');
+
+    let flipButton = document.createElement("button");
+    flipButton.innerHTML = "⇅";
+    flipButton.classList.add("flip");
+    flipButton.onclick = () => {
+        searchByStat(stat, formattedName);
+        if (biggestToSmallest) {
+            biggestToSmallest = false;
+        } else {
+            biggestToSmallest = true;
+        }
+    };
+
+    let header = document.createElement("h1");
+    header.innerHTML = formattedName;
+    row.appendChild(header);
+    row.appendChild(flipButton);
+    suggestionsDiv.appendChild(row);
+
+    const validFighters = data.filter(f =>
+        f[stat] !== "" && Number.isFinite(Number(f[stat]))
+    );
+
+    if (biggestToSmallest) {
+        validFighters.sort((a, b) => {
+            return Number(b[stat]) - Number(a[stat]);
+        });
+    } else {
+        validFighters.sort((a, b) => {
+            return Number(a[stat]) - Number(b[stat]);
+        });
+    }
+
+     // Create buttons in sorted order
+     for (const fighter of validFighters) {
+        if (fighter["stance"] === "STATISTIC") {
+            continue;
+        }
+        const row = document.createElement('div');
+        row.classList.add('suggestion-row');
+        let compareButton;
+        const button = document.createElement("button");
+        button.type = "button";
+        button.innerHTML = fighter.name + ": " + fighter[stat];
+        
+        button.onclick = () => {
+            searchFighter(fighter.name);
+            if (fightersOn == 0) {
+                fightersOn = 1;
+            }
+        };
+        // compare button
+        compareButton = document.createElement('button');
+        compareButton.type = 'button';
+        compareButton.innerHTML = 'Compare';
+        compareButton.classList.add('compare');
+        compareButton.onclick = function () {
+            if (fightersOn == 1 || fightersOn == 2) {
+                collapseSuggestions(suggestionsDiv);
+                compareFighter(fighter.name.trim());
+                fightersOn = 2;
+            } else {
+                fightersOn = 1;
+                searchFighter(fighter.name);
+            }
+        };
+        row.appendChild(button);
+        row.appendChild(compareButton);
+
+        suggestionsDiv.appendChild(row);
+    }
+}
+
 async function predict(name, numFighters) {
 
     const suggestionsDiv = document.getElementById("suggestions");
@@ -67,7 +155,6 @@ async function predict(name, numFighters) {
 
     if (search.length<9) {
         suggestionsDiv.style.setProperty("--p3",(90-search.length*10)+'%');
-        
     }
     const matches = data.filter(f => f.name?.toLowerCase().startsWith(search));
 
@@ -77,12 +164,14 @@ async function predict(name, numFighters) {
     
     if (getComputedStyle(suggestionsDiv).display === "none") {
         expandSuggestions(suggestionsDiv);
+
+
     }
 
     if (showFighters) {
         let button = document.createElement('button');
         button.type = 'button';
-        button.innerHTML = "Hide extra \""+name+"\"";
+        button.innerHTML = "Show less \""+name+"\"";
         button.style.backgroundImage = 'linear-gradient(to right, black, rgb(128,128,205))';
         button.style.borderRadius = '4px';
         button.style.width = '40%';
@@ -98,45 +187,52 @@ async function predict(name, numFighters) {
     if (matches.length > 0) {
 
         const names = matches.slice(0, numFighters).map(f => f.name);
-        
+        const stances = matches.slice(0, numFighters).map(f => f.stance);
+        const stats = matches.slice(0, numFighters).map(f => f.nickname);
 
         for (let i = 0; i < names.length; i++) {
 
             // row wrapper
             const row = document.createElement('div');
             row.classList.add('suggestion-row');
-        
-            // name button
             const button = document.createElement('button');
-            button.type = 'button';
-            button.innerHTML = names[i];
-            button.onclick = function () {
-                if (fightersOn == 0) {
-                    fightersOn = 1;
-                }
-                predict(name, numFighters);
-                searchFighter(names[i].trim());
-            };
-            
-
             let compareButton;
+            if (stances[i] != "STATISTIC") {
+                // name button
+                button.type = 'button';
+                button.innerHTML = names[i];
+                button.onclick = function () {
+                    if (fightersOn == 0) {
+                        fightersOn = 1;
+                    }
+                    predict(name, numFighters);
+                    searchFighter(names[i].trim());
+                };
 
-            if (fightersOn >= 1) {
-                // compare button
-                compareButton = document.createElement('button');
-                compareButton.type = 'button';
-                compareButton.innerHTML = 'Compare';
-                compareButton.classList.add('compare');
-                compareButton.onclick = function () {
-                    collapseSuggestions(suggestionsDiv);
-                    compareFighter(names[i].trim());
-                    fightersOn = 2;
+                if (fightersOn >= 1) {
+                    // compare button
+                    compareButton = document.createElement('button');
+                    compareButton.type = 'button';
+                    compareButton.innerHTML = 'Compare';
+                    compareButton.classList.add('compare');
+                    compareButton.onclick = function () {
+                        collapseSuggestions(suggestionsDiv);
+                        compareFighter(names[i].trim());
+                        fightersOn = 2;
+                    };
+                }
+            } else {
+                button.type = 'button';
+                button.classList.add("stat");
+                button.innerHTML = "Stat: " + names[i];
+                button.onclick = function () {
+                    searchByStat(stats[i], names[i]);
                 };
             }
 
 
             row.appendChild(button);
-            if (fightersOn >= 1) {
+            if (fightersOn >= 1 && stances[i] != "STATISTIC") {
                 row.appendChild(compareButton);
             }
             suggestionsDiv.appendChild(row);
@@ -145,7 +241,7 @@ async function predict(name, numFighters) {
         if (showFighters) {
             let button = document.createElement('button');
             button.type = 'button';
-            button.innerHTML = "Hide extra \""+name+"\"";
+            button.innerHTML = "Show less \""+name+"\"";
             button.style.backgroundImage = 'linear-gradient(to right, black, rgb(128,128,205))';
             button.style.borderRadius = '4px';
             button.style.width = '40%';
@@ -161,7 +257,7 @@ async function predict(name, numFighters) {
         if (matches.length > 6 && !showFighters) {
             let button = document.createElement('button');
             button.type = 'button';
-            button.innerHTML = "Show all \""+name+"\"";
+            button.innerHTML = "Show more \""+name+"\"";
             button.style.backgroundImage = 'linear-gradient(to right, black, rgb(128,128,205))';
             button.style.borderRadius = '4px';
             button.style.width = '40%';
@@ -546,3 +642,22 @@ async function compareFighter(fighterName) {
     }
 
 }
+
+const backToTopBtn = document.getElementById("backToTop");
+
+// Show button after scrolling down
+window.addEventListener("scroll", () => {
+    if (window.scrollY > 500) {
+        backToTopBtn.style.display = "block";
+    } else {
+        backToTopBtn.style.display = "none";
+    }
+});
+
+// Scroll to top when clicked
+backToTopBtn.addEventListener("click", () => {
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+});

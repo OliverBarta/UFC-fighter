@@ -11,8 +11,10 @@
     <div class="title">
         UFC Fighter
     </div>
+    <div class="buttonGrid" id="buttonGrid" style="display: flex;"></div>
+
     <div class="mainsearch">
-        <input id="fightersearch" type="text" placeholder="Enter fighter name" autocomplete="off"/>
+        <input id="fightersearch" type="text" placeholder="Enter fighter name or stat" autocomplete="off"/>
         <button onclick="searchFighterNoName()">-></button>
     </div>
     <div class="suggestions" id="suggestions" style="display: none;"></div>
@@ -43,7 +45,7 @@
     
 
     <div id="emptybotbox" class="emptybot" style="display: flex;"></div><!-- empty invisible box. Purpose: stop jumping -->
-
+    <button id="backToTop" title="Back to top">↑ Top</button>
     <script src="scriptbackend.js"></script>
 
 

@@ -275,7 +275,7 @@ body {
 
 
 .suggestions.expand {
-    max-height: 1000px; /* must be larger than content */
+    max-height: 1000px; /* max height of suggestions box */
     padding: 2rem;
     opacity: 1;
 }
@@ -333,19 +333,6 @@ body {
     font-size: 20px;
 }
 
-.suggestions button.compare {
-    flex-direction: row;
-    background: none;
-    border: 2px;
-    padding: 0;
-    margin: 0;
-    font-family: Bitcount;
-    color: rgb(255, 255, 255);
-    cursor: pointer;
-    text-align: right;
-    transition: font-size 0.3s;
-}
-
 @media (max-width: 850px) {
     .barwins,
     .suggestions,
@@ -376,4 +363,48 @@ body {
     width: 200px;
     height: 800px;
     background: none;
+}
+
+#backToTop {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    
+    padding: 12px 18px;
+    font-size: 16px;
+    font-weight: bold;
+
+    background-color: #111;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+
+    display: none; /* hidden by default */
+    z-index: 1000;
+
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+#backToTop:hover {
+    background-color: #333;
+}
+
+.suggestions button.stat {
+    background-color: orange;
+    border: 2px solid white;
+    border-radius: 20px;
+    text-align: center;
+    font-style: bold;
+}
+
+.suggestions button.flip {
+    margin-left:auto;
+    font-size: 200%;
+    transition: font-size 0.3s;
+}
+.suggestions button.flip:hover {
+    margin-left:auto;
+    font-size: 250%;
 }
